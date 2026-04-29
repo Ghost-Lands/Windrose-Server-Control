@@ -1,4 +1,4 @@
-# Windrose Server GUI
+# Windrose Server Control
 
 A lightweight GUI for managing your [Windrose](https://store.steampowered.com/app/3041230/Windrose/) dedicated server on Windows. Control your server, monitor stats, manage players, and keep the server up to date — all from a browser tab.
 
