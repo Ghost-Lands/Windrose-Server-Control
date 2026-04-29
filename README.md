@@ -33,13 +33,13 @@ A lightweight GUI for managing your [Windrose](https://store.steampowered.com/ap
 
 ## First Launch
 
-On first launch the GUI automatically detects your Windrose server and SteamCMD locations by checking all common Steam library paths. If it can't find them it will ask you to enter the paths once and save them for future launches.
+On first launch Windrose Server Control automatically detects your Windrose server and SteamCMD locations by checking all common Steam library paths. If it can't find them it will ask you to enter the paths once and save them for future launches.
 
 To reset the detected paths, delete `windrose_gui_config.txt` from the same folder and relaunch.
 
 ## Configuration
 
-Click the **⚙ config** button in the GUI to open the config panel. From there you can set:
+Click the **⚙ config** button in the Windrose Server Control to open the config panel. From there you can set:
 
 - **Daily restart time** — choose any hour and timezone (EST, CST, MST, PST, UTC, GMT, CET, AEST)
 - **Discord webhook URL** — paste your webhook to enable notifications
@@ -48,7 +48,7 @@ Settings are saved to `windrose_settings.json` in the same folder as the exe.
 
 ## Discord Notifications
 
-The GUI sends Discord notifications for:
+The Windrose Server Control sends Discord notifications for:
 
 - Server online / offline
 - Server crashed + auto-restart
@@ -64,7 +64,7 @@ To set up a webhook:
 
 ## Auto-Update
 
-Every 3 hours the GUI checks for Windrose server updates via SteamCMD. When triggered it stops the server, runs the update, and restarts automatically. You can also trigger a manual update anytime with the **↑ update** button.
+Every 3 hours the Windrose Server Control checks for Windrose server updates via SteamCMD. When triggered it stops the server, runs the update, and restarts automatically. You can also trigger a manual update anytime with the **↑ update** button.
 
 SteamCMD is detected automatically in common locations. If not found you will be prompted to enter the path on first launch.
 
@@ -97,7 +97,7 @@ Requirements on the other PC:
 ## Notes
 
 - Windrose is in Early Access and has no built-in admin console. This GUI manages the server process directly.
-- The GUI runs a local HTTP server on port `7777`. If something else is using that port, free it with:
+- The Windrose Server Control runs a local HTTP server on port `7777`. If something else is using that port, free it with:
   ```
   Stop-Process -Id (Get-NetTCPConnection -LocalPort 7777).OwningProcess -Force
   ```
