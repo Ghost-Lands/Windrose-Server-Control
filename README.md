@@ -33,12 +33,6 @@ A lightweight GUI for managing your [Windrose](https://store.steampowered.com/ap
 
 > You only need to run `build_exe.bat` once. After that just use `WindroseServerGUI.exe`.
 
-### Option B — Run as script (no build required)
-
-1. Download `windrose_backend.ps1` and `start_gui.bat`
-2. Put both files in the same folder
-3. Double-click `start_gui.bat`
-
 ## First Launch
 
 On first launch the GUI automatically detects your Windrose server and SteamCMD locations by checking all common Steam library paths. If it can't find them it will ask you to enter the paths once and save them for future launches.
