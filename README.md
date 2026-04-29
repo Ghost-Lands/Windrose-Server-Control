@@ -24,8 +24,6 @@ A lightweight GUI for managing your [Windrose](https://store.steampowered.com/ap
 
 ## Installation
 
-### Option A — Run as exe (recommended)
-
 1. Download `windrose_backend.ps1` and `build_exe.bat`
 2. Put both files in the same folder
 3. Double-click `build_exe.bat` — it installs the compiler and builds `WindroseServerGUI.exe`
