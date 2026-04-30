@@ -1,4 +1,4 @@
-# Windrose Server Control
+# Windrose Server Control v1.1
 
 A standalone Windows app for managing your [Windrose](https://store.steampowered.com/app/3041230/Windrose/) dedicated server. No Python, no PowerShell, no dependencies — just double-click and go.
 
