@@ -152,14 +152,14 @@ On startup the full log is scanned to find players already connected before the 
 
 ## Auto-Update
 
-Every 3 hours the app checks for Windrose updates via SteamCMD:
+The app periodically checks for Windrose updates via SteamCMD without interrupting the server. The update interval is configurable in the config panel (default 3 hours).
+How it works:
 
-1. Stops the server
-2. Runs SteamCMD self-update twice 
-3. Updates Windrose (app ID 4129620)
-4. Restarts the server
+Runs SteamCMD silently in the background while the server stays online
+If no update is available — logs "No update available" and schedules the next check
+If an update is found — stops the server, installs the update, restarts automatically, and sends a Discord notification
 
-Manual update available anytime via the **↑ update** button.
+Manual update available anytime via the ↑ update button.
 
 ## Building from Source
 
