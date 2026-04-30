@@ -8,9 +8,9 @@ A standalone Windows app for managing your [Windrose](https://store.steampowered
 - **Auto-start** — server launches automatically when the app opens
 - **Auto-restart** — detects crashes and relaunches automatically
 - **Duplicate instance protection** — won't launch a second server if one is already running
-- **SteamCMD auto-update** every 3 hours (stops server, updates, restarts)
+- **SteamCMD auto-update** — checks on a configurable schedule, only restarts if an update is actually found
 - **Manual update** button to trigger an update anytime
-- **Daily restart** — configurable time and timezone
+- **Daily restart** — configurable time (24h, uses local system time)
 - **Discord webhooks** — per-event toggles for every notification type
 - **Live stats** — CPU usage, RAM, uptime
 - **Player list** — live player detection via log tailing + RCON poll
@@ -18,14 +18,13 @@ A standalone Windows app for managing your [Windrose](https://store.steampowered
 - **Banlist** — view banned players and unban them
 - **Live log** — color-coded server log with noise filtering
 - **System tray icon** — green/red/orange status, right-click menu, double-click to reopen
-- **Invite code** displayed in header from `ServerDescription.json`
-- **Server info** — max player count from server config
+- **Multi-server support** — run multiple instances in separate folders on the same machine
 
 ## Requirements
 
 - Windows 10 or 11
 - .NET Framework 4.0 (built into Windows — no download needed)
-- Windrose Dedicated Server installed via Steam
+- Windrose Dedicated Server installed via SteamCMD
 - SteamCMD installed (auto-detected)
 
 ## Installation
@@ -34,7 +33,7 @@ A standalone Windows app for managing your [Windrose](https://store.steampowered
 2. Double-click `build_exe.bat` to compile `Windrose Server Control.exe`
 3. Double-click `Windrose Server Control.exe` to launch
 
-> You only need to build once. After that just use the exe.
+You only need to build once. After that just use the exe.
 
 ## First Launch
 
@@ -42,8 +41,8 @@ The app auto-detects your Windrose server and SteamCMD by scanning:
 
 1. Windows registry for Steam install path
 2. Steam's `libraryfolders.vdf` for all library locations
-3. All connected drives for common Steam folder names
-4. Desktop, Downloads, and Documents folders
+3. Desktop subfolders (most common install location)
+4. All connected drives for common Steam folder names
 5. Full recursive drive scan as a last resort
 
 If detection fails a folder picker will open. Paths are saved to `windrose_settings.json`.
@@ -66,12 +65,14 @@ Click **⚙ config** in the GUI:
 
 | Setting | Description |
 |---------|-------------|
-| Daily Restart Time | Hour and timezone for scheduled restart |
+| Daily Restart Time | Hour in 24h format using local system time |
 | Discord Webhook | Paste webhook URL to enable notifications |
 | Discord Notifications | Toggle each event type on/off |
 | REST API URL | URL for Windrose REST API mod (default `http://localhost:9600`) |
 | REST API Key | API key from the mod's `settings.ini` |
 | Poll Interval | How often to poll the REST API for player list (seconds, min 2) |
+| Update Check | How often to check for server updates (hours, min 1) |
+| GUI Port | HTTP port for the dashboard (default 7777, change for multi-server) |
 
 ### windrose_settings.json
 
@@ -80,11 +81,12 @@ Click **⚙ config** in the GUI:
   "serverDir": "C:\\path\\to\\Windrose Dedicated Server",
   "steamCmd": "C:\\path\\to\\steamcmd.exe",
   "webhookUrl": "https://discord.com/api/webhooks/...",
+  "guiPort": 7777,
   "rconApiUrl": "http://localhost:9600",
   "rconApiKey": "your_api_key",
   "rconPollSec": 5,
-  "restartHour": 4,
-  "maxRamGb": 64,
+  "restartHour": -1,
+  "updateHours": 3,
   "notifyOnline": true,
   "notifyOffline": true,
   "notifyCrash": true,
@@ -107,7 +109,7 @@ Each event can be toggled individually in the config panel:
 | Server Offline | Server stopped manually |
 | Server Crash | Crashed + auto-restart triggered |
 | Restart | Manual or scheduled restart |
-| Update | Update started and completed |
+| Update | Update found and installed |
 | Daily Restart | Scheduled daily restart |
 | Player Join | Player connected |
 | Player Leave | Player disconnected |
@@ -139,8 +141,6 @@ Kick, ban, and banlist require the Windrose REST API mod.
 6. In the GUI config panel enter `http://localhost:9600` and your API key, click **save**
 7. Restart the server
 
-The player list will automatically update via REST API polling every 5 seconds (configurable).
-
 ## Player Detection
 
 Players are detected two ways:
@@ -152,14 +152,16 @@ On startup the full log is scanned to find players already connected before the 
 
 ## Auto-Update
 
-The app periodically checks for Windrose updates via SteamCMD without interrupting the server. The update interval is configurable in the config panel (default 3 hours).
-How it works:
+The app checks for Windrose updates via SteamCMD on a configurable schedule (default 3 hours, min 1 hour) without interrupting the server.
 
-Runs SteamCMD silently in the background while the server stays online
-If no update is available — logs "No update available" and schedules the next check
-If an update is found — stops the server, installs the update, restarts automatically, and sends a Discord notification
+- **No update found** — logs the result and schedules the next check, server keeps running
+- **Update found** — stops the server, installs the update, restarts automatically, sends a Discord notification
 
-Manual update available anytime via the ↑ update button.
+Manual update available anytime via the **↑ update** button.
+
+## Multi-Server Support
+
+To run two servers on the same machine, put two copies of the exe in separate folders, each with their own `windrose_settings.json`. Set a different `guiPort` (e.g. 7777 and 7778) and `serverDir` in each settings file. Launch both independently.
 
 ## Building from Source
 
@@ -176,7 +178,7 @@ Run `build_exe.bat`. Uses the C# compiler built into Windows — no Visual Studi
 
 ## Notes
 
-- The GUI runs a local HTTP server on port `7777`. If something else uses that port an error dialog will appear.
+- The GUI runs a local HTTP server on port `7777` by default. Change `guiPort` in settings if needed.
 - Any previous instance of `Windrose Server Control.exe` is automatically killed on launch to free the port.
 - The banlist is read directly from `R5\Binaries\Win64\ue4ss\Mods\WindroseAPI\banlist.json`.
 
