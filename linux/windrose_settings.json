@@ -1,0 +1,20 @@
+{
+  "serverDir": "",
+  "steamCmd": "",
+  "webhookUrl": "",
+  "guiPort": 7777,
+  "rconApiUrl": "http://localhost:9600",
+  "rconApiKey": "",
+  "rconPollSec": 5,
+  "restartHour": -1,
+  "updateHours": 3,
+  "notifyOnline": true,
+  "notifyOffline": true,
+  "notifyCrash": true,
+  "notifyRestart": true,
+  "notifyUpdate": true,
+  "notifyDaily": true,
+  "notifyJoin": true,
+  "notifyLeave": true,
+  "notifyKick": true
+}
