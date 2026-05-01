@@ -1,0 +1,16 @@
+[Unit]
+Description=Windrose Server Control
+After=network.target
+
+[Service]
+Type=simple
+User=YOUR_USERNAME
+WorkingDirectory=/home/YOUR_USERNAME/windrose-server-control
+ExecStart=/usr/bin/python3 /home/YOUR_USERNAME/windrose-server-control/windrose_server.py
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
